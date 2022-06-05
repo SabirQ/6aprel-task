@@ -20,7 +20,7 @@ namespace Task.Controllers
         }
         public IActionResult Index()
         {
-            List<Blog> blogs = _context.Blogs.Include(b => b.Comments).ToList();
+            List<Blog> blogs = _context.Blogs.Include(b => b.Comments).Include(b => b.Tags).ToList();
 
             return View(blogs);
         }

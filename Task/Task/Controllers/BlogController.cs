@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Task.DAL;
 using Task.Models;
+using Task.ViewModels;
 
 namespace Task.Controllers
 {
@@ -29,13 +30,18 @@ namespace Task.Controllers
             {
                 return NotFound();
             }
-            Blog blog = _context.Blogs.Include(b=>b.Comments).Include(b => b.Tags).FirstOrDefault(b => b.Id == id);
-            if (blog==null)
+            BlogVM model = new BlogVM
+            {
+                Blog = _context.Blogs.Include(b => b.Comments).Include(b => b.Tags).FirstOrDefault(b => b.Id == id),
+                Blogs=_context.Blogs.OrderByDescending(b => b.Date).Take(4).ToList()
+            };
+            
+            if (model.Blog==null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(model);
         }
     }
 }

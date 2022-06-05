@@ -1,4 +1,4 @@
-﻿@model Blog
+﻿@model BlogVM
 @{
     ViewData["Title"] = "Blog Details";
 }
@@ -47,53 +47,24 @@
                             <div class="left-blog">
                                 <h4>recent post</h4>
                                 <div class="recent-post">
+                                    @foreach (Blog blog in Model.Blogs)
+                                    {
+                                        <div class="recent-single-post">
+                                            <div class="post-img">
+                                                <a href="#">
+                                                    <img src="~/assets/img/blog/@blog.Image" alt="@blog.Title">
+                                                </a>
+                                            </div>
+                                            <div class="pst-content">
+                                                @if (blog.Desc.Length > 20)
+                                                {<p><a href="#"> @blog.Desc.Substring(0, 20)..</a></p>}
+                                                else
+                                                {<p><a href="#"> @blog.Desc.</a></p> }
+                                                
+                                            </div>
+                                        </div>
+                                    }
                                     <!-- start single post -->
-                                    <div class="recent-single-post">
-                                        <div class="post-img">
-                                            <a href="#">
-                                                <img src="~/assets/img/blog/1.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="pst-content">
-                                            <p><a href="#"> Redug Lerse dolor sit amet consect adipis elit.</a></p>
-                                        </div>
-                                    </div>
-                                    <!-- End single post -->
-                                    <!-- start single post -->
-                                    <div class="recent-single-post">
-                                        <div class="post-img">
-                                            <a href="#">
-                                                <img src="~/assets/img/blog/2.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="pst-content">
-                                            <p><a href="#"> Redug Lerse dolor sit amet consect adipis elit.</a></p>
-                                        </div>
-                                    </div>
-                                    <!-- End single post -->
-                                    <!-- start single post -->
-                                    <div class="recent-single-post">
-                                        <div class="post-img">
-                                            <a href="#">
-                                                <img src="~/assets/img/blog/3.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="pst-content">
-                                            <p><a href="#"> Redug Lerse dolor sit amet consect adipis elit.</a></p>
-                                        </div>
-                                    </div>
-                                    <!-- End single post -->
-                                    <!-- start single post -->
-                                    <div class="recent-single-post">
-                                        <div class="post-img">
-                                            <a href="#">
-                                                <img src="~/assets/img/blog/4.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="pst-content">
-                                            <p><a href="#"> Redug Lerse dolor sit amet consect adipis elit.</a></p>
-                                        </div>
-                                    </div>
                                     <!-- End single post -->
                                 </div>
                             </div>
@@ -154,30 +125,12 @@
                                 <div class="popular-tag left-side-tags left-blog">
                                     <h4>popular tags</h4>
                                     <ul>
-                                        <li>
-                                            <a href="#">Portfolio</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Project</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Design</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">wordpress</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Joomla</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Html</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Masonry</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Website</a>
-                                        </li>
+                                        @foreach (Tag tag in Model.Blog.Tags)
+                                        {
+                                            <li>
+                                                <a href="#">@tag.Name</a>
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -192,13 +145,13 @@
                             <!-- single-blog start -->
                             <article class="blog-post-wrapper">
                                 <div class="post-thumbnail">
-                                    <img src="~/assets/img/blog/@Model.Image" alt="@Model.Title" />
+                                    <img src="~/assets/img/blog/@Model.Blog.Image" alt="@Model.Blog.Title" />
                                 </div>
                                 <div class="post-information">
-                                    <h2>@Model.Title</h2>
+                                    <h2>@Model.Blog.Title</h2>
                                     <div class="entry-meta">
                                         <span class="author-meta"><i class="bi bi-person"></i> <a href="#">admin</a></span>
-                                        <span><i class="bi bi-clock"></i>@Model.Date.ToString("g")</span>
+                                        <span><i class="bi bi-clock"></i>@Model.Blog.Date.ToString("g")</span>
                                         <span class="tag-meta">
                                             <i class="bi bi-folder"></i>
                                             <a href="#">painting</a>,
@@ -210,15 +163,15 @@
                                             <a href="#"> Humer</a>,
                                             <a href="#">House</a>
                                         </span>
-                                        <span><i class="bi bi-chat"></i> <a href="#">@(Model.Comments.Count()==0 ? "No Comments": $"{Model.Comments.Count()} comments")</a></span>
+                                        <span><i class="bi bi-chat"></i> <a href="#">@(Model.Blog.Comments.Count()==0 ? "No Comments": $"{Model.Blog.Comments.Count()} comments")</a></span>
                                     </div>
                                     <div class="entry-content">
                                         <p>
-                                            @Model.Desc
+                                            @Model.Blog.Desc
                                         </p>
                                         <blockquote>
                                             <p>
-                                                @Model.BlockQuote
+                                                @Model.Blog.BlockQuote
                                             </p>
                                         </blockquote>
                                     </div>
@@ -228,11 +181,11 @@
                             <div class="single-post-comments">
                                 <div class="comments-area">
                                     <div class="comments-heading">
-                                        <h3>6 comments</h3>
+                                        <h3>@(Model.Blog.Comments.Count()==0 ? "No Comments": $"{Model.Blog.Comments.Count()} comments")</h3>
                                     </div>
                                     <div class="comments-list">
                                         <ul>
-                                            @foreach (Comment comment in Model.Comments)
+                                            @foreach (Comment comment in Model.Blog.Comments)
                                             {
                                                 <li class="threaded-comments">
                                                     <div class="comments-details">
